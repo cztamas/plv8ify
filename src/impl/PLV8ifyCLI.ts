@@ -44,6 +44,7 @@ export class PLV8ifyCLI implements PLV8ify {
     string: 'text',
     boolean: 'boolean',
     trigger: 'TRIGGER',
+    Date: 'date',
   }
 
   constructor(bundler: BundlerType = 'esbuild') {

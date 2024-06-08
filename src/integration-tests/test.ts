@@ -37,4 +37,41 @@ describe('dummy tests', () => {
     const result = await db.raw('SELECT testFunction(6) as result')
     expect(result.rows).toEqual([{ result: '[0,1,2,3,4,5]' }])
   })
+
+  // the current test setup blows up if there is a ternary in the code because knex handles ? as a placeholder :(
+  test('handles Date type correctly', async () => {
+    await buildAndLoadTsToDb(`
+      function latestLeapYearBeforeYear(year: number): number {
+        const firstGuess = year - (year % 4);
+        if (firstGuess % 100 === 0 && firstGuess % 400 !== 0) {
+          return firstGuess - 4;
+        }
+        return firstGuess;
+      }
+
+      export function latestLeapDayBefore(date: Date): Date {
+        let year = date.getFullYear();
+        const month = date.getMonth();
+        const day = date.getDate();
+
+        const dateIsBeforeFeb29 = month < 1 || (month === 1 && day < 29);
+        if (dateIsBeforeFeb29) {
+          year = year - 1;
+        }
+
+        const leapYear = latestLeapYearBeforeYear(year);
+        return new Date(leapYear + '-02-29T00:00:00.000Z');
+      }
+    `)
+
+    const result = await db.raw(
+      `SELECT to_char(
+        latestLeapDayBefore(
+          to_date('2024-06-01', 'YYYY-MM-DD')
+        ),
+        'YYYY-MM-DD'
+      ) as result`
+    )
+    expect(result.rows).toEqual([{ result: '2024-02-29' }])
+  })
 })
