@@ -3,7 +3,7 @@ import { afterEach, describe, expect, test } from 'bun:test'
 import { buildAndLoadTsToDb } from './helpers'
 import { db } from './setup/setup'
 
-describe('dummy tests', () => {
+describe('integration tests', () => {
   afterEach(async () => {
     await db.raw('DROP FUNCTION IF EXISTS plv8_test')
   })
