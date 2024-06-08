@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  postgres:
+    image: sibedge/postgres-plv8:16.3-3.2.2
+    ports:
+      - '15432:5432'
+    volumes:
+      - ./init-plv8.sql:/docker-entrypoint-initdb.d/init-plv8.sql
+    environment:
+      POSTGRES_USER: plv8ify
+      POSTGRES_PASSWORD: cool-dev-password
+      POSTGRES_DB: plv8ify
