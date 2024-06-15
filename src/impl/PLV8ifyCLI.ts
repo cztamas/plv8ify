@@ -156,13 +156,7 @@ export class PLV8ifyCLI implements PLV8ify {
   }
 
   private getFunctionTrigger(fn: TSFunction) {
-    const triggerStr = '//@plv8ify-trigger'
-    const comments = fn.comments
-    const trigger = comments.filter((comment) => comment.includes(triggerStr))
-      .length
-      ? true
-      : false
-    return trigger
+    return fn.name.toLowerCase().endsWith('trigger')
   }
 
   private getFunctionCustomSchema(fn: TSFunction) {

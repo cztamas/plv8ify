@@ -5,8 +5,7 @@ type Row = {
   event_date_time: Date
 }
 
-//@plv8ify-trigger
-export function test(NEW: Row, OLD: Row): Row {
+export function testTrigger(NEW: Row, OLD: Row): Row {
   plv8.elog(NOTICE, 'NEW = ', JSON.stringify(NEW))
   plv8.elog(NOTICE, 'OLD = ', JSON.stringify(OLD))
   plv8.elog(NOTICE, 'TG_OP = ', TG_OP)

@@ -20,10 +20,10 @@ $function$ LANGUAGE plv8 IMMUTABLE STRICT;"
 
 
 exports[`PLV8ifyCLI tests getSQLFunction with parameters-trigger 1`] = `
-"DROP FUNCTION IF EXISTS plv8ify_test();
-CREATE OR REPLACE FUNCTION plv8ify_test() RETURNS TRIGGER AS $plv8ify$
+"DROP FUNCTION IF EXISTS plv8ify_testTrigger();
+CREATE OR REPLACE FUNCTION plv8ify_testTrigger() RETURNS TRIGGER AS $plv8ify$
 
-function test(NEW, OLD) {
+function testTrigger(NEW, OLD) {
   if (TG_OP === "UPDATE") {
     NEW.event_name = NEW.event_name ?? OLD.event_name;
     return NEW;
@@ -32,9 +32,9 @@ function test(NEW, OLD) {
     NEW.id = 102;
     return NEW;
   }
-}      
-      
-return test(NEW,OLD)
+}
+
+return testTrigger(NEW,OLD)
 
 $plv8ify$ LANGUAGE plv8 IMMUTABLE STRICT;"
 `;
@@ -45,8 +45,8 @@ CREATE OR REPLACE FUNCTION testschema.plv8ify_test() RETURNS JSONB AS $plv8ify$
 
 function test() {
   return "hello";
-}      
-      
+}
+
 return test()
 
 $plv8ify$ LANGUAGE plv8 IMMUTABLE STRICT;"
@@ -61,8 +61,8 @@ CREATE OR REPLACE FUNCTION test(test test_type[]) RETURNS JSONB AS $plv8ify$
           name: "Hello" + test[0].name,
           age: test[0].age,
         }
-      }      
-      
+      }
+
 return test(test)
 
 $plv8ify$ LANGUAGE plv8 IMMUTABLE STRICT;"

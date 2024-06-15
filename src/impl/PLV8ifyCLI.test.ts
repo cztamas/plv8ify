@@ -45,18 +45,18 @@ describe('PLV8ifyCLI tests', () => {
     const plv8ify = new PLV8ifyCLI()
     const sql = plv8ify.getPLV8SQLFunction({
       fn: {
-        name: 'test',
+        name: 'testTrigger',
         parameters: [
           { name: 'NEW', type: 'testRow' },
           { name: 'OLD', type: 'testRow' },
         ],
-        comments: ['//@plv8ify-trigger'],
+        comments: [],
       } as TSFunction,
       scopePrefix: 'plv8ify_',
       mode: 'inline',
       defaultVolatility: 'IMMUTABLE',
       bundledJs: `
-function test(NEW, OLD) {
+function testTrigger(NEW, OLD) {
   if (TG_OP === "UPDATE") {
     NEW.event_name = NEW.event_name ?? OLD.event_name;
     return NEW;
@@ -65,8 +65,8 @@ function test(NEW, OLD) {
     NEW.id = 102;
     return NEW;
   }
-}      
-      `,
+}
+`,
       pgFunctionDelimiter: '$plv8ify$',
       fallbackReturnType: 'JSONB',
     })
@@ -87,8 +87,8 @@ function test(NEW, OLD) {
       bundledJs: `
 function test() {
   return "hello";
-}      
-      `,
+}
+`,
       pgFunctionDelimiter: '$plv8ify$',
       fallbackReturnType: 'JSONB',
     })
@@ -114,8 +114,8 @@ function test() {
           name: "Hello" + test[0].name,
           age: test[0].age,
         }
-      }      
-      `,
+      }
+`,
       pgFunctionDelimiter: '$plv8ify$',
       fallbackReturnType: 'JSONB',
     })

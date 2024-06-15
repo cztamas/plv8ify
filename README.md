@@ -59,7 +59,7 @@ $plv8ify$ LANGUAGE plv8 IMMUTABLE STRICT;
 
 ## Trigger functions
 
-To write a trigger function, decorate the function with the `//@plv8ify-trigger` comment, and have the function return a `testRow` type where `testRow` defines the type of the row for the trigger. You can also add a NEW parameter for insert and update triggers, and OLD for update and delete triggers.
+To write a trigger function, the name of the function should end with `Trigger`, and have the function return a `testRow` type where `testRow` defines the type of the row for the trigger. You can also add a NEW parameter for insert and update triggers, and OLD for update and delete triggers.
 (Tip: you can add @types/pg and @types/plv8-internals to get all standard postgres types/defines and plv8 specific functions recognized by the type checker)
 
 ```
@@ -70,8 +70,7 @@ type Row = {
   event_date_time: Date
 }
 
-//@plv8ify-trigger
-export function test(NEW: Row, OLD: Row): Row {
+export function testTrigger(NEW: Row, OLD: Row): Row {
   plv8.elog(NOTICE, 'NEW = ', JSON.stringify(NEW));
   plv8.elog(NOTICE, 'OLD = ', JSON.stringify(OLD));
   plv8.elog(NOTICE, 'TG_OP = ', TG_OP);
