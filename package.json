@@ -1,8 +1,8 @@
 {
-  "name": "@cztamas/plv8ify-experiment",
-  "version": "0.0.1",
+  "name": "cztamas-plv8ify-experiment",
+  "version": "0.0.2",
   "type": "module",
-  "main": "src/index.ts",
+  "main": "dist/src/index.js",
   "license": "MIT",
   "dependencies": {
     "arg": "5.0.1",
